@@ -20,3 +20,18 @@ services:
     environment:
       POSTGRES_PASSWORD: "admin"
       POSTGRES_USER: "admin"
+  
+  web:
+    build: .
+    container_name: contacts-api
+    volumes:
+        - .:/code
+    ports:
+        - 8000:8000
+    depends_on:
+        - mysql
+        - postgresql
+    environment:
+        - ENVIRONMENT=DEVELOPMENT
+
+
