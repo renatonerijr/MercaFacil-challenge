@@ -8,18 +8,26 @@ services:
     - MYSQL_DATABASE=admin
     - MYSQL_USER=admin
     - MYSQL_PASSWORD=admin
-    - MYSQL_ROOT_HOST=%
+    - MYSQL_HOST=127.0.0.1
     ports:
-      - "3306:3306"
+      - "127.0.0.1:3306:3306"
     command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      -  ./.mysql:/var/lib/mysql:rw
+
 
   postgresql:
     image: postgres
+    restart: always
+    volumes:
+      - ./.db:/var/lib/postgresql
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     environment:
-      POSTGRES_PASSWORD: "admin"
-      POSTGRES_USER: "admin"
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
   
   web:
     build: .
